@@ -1,0 +1,420 @@
+{
+  "assets": {
+    "schema": {
+      "type": "object",
+      "version": 0,
+      "primaryKey": "address",
+      "properties": {
+        "sortIndex": { "type": "number" },
+        "address": { "type": "string", "maxLength": 100 },
+        "symbol": { "type": "string", "maxLength": 100 },
+        "name": { "type": "string", "maxLength": 100 },
+        "tokenName": { "type": "string", "maxLength": 100 },
+        "tokenSymbol": { "type": "string", "maxLength": 100 },
+        "decimal": { "type": "string", "maxLength": 100 },
+        "shortDecimal": { "type": "string", "maxLength": 100 },
+        "subAccounts": {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "properties": {
+              "name": { "type": "string", "maxLength": 100 },
+              "sub_account_id": { "type": "string" },
+              "address": { "type": "string" },
+              "amount": { "type": "string", "maxLength": 100 },
+              "currency_amount": { "type": "string", "maxLength": 100 },
+              "transaction_fee": { "type": "string", "maxLength": 100 },
+              "decimal": { "type": "string", "maxLength": 100 },
+              "symbol": { "type": "string", "maxLength": 100 }
+            },
+            "required": ["numb", "name", "amount", "currency_amount"]
+          }
+        },
+        "index": { "type": "string", "maxLength": 100 },
+        "logo": { "type": "string", "maxLength": 1000 },
+        "supportedStandards": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 100 }
+        },
+        "deleted": { "type": "boolean" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": [
+        "sortIndex",
+        "symbol",
+        "name",
+        "tokenName",
+        "tokenSymbol",
+        "decimal",
+        "shortDecimal",
+        "subAccounts",
+        "fee",
+        "index",
+        "logo",
+        "supportedStandards",
+        "deleted",
+        "updatedAt"
+      ],
+      "indexes": ["name"]
+    },
+    "migrationStrategies": {}
+  },
+  "contacts": {
+    "schema": {
+      "type": "object",
+      "version": 0,
+      "primaryKey": "principal",
+      "properties": {
+        "principal": { "type": "string", "maxLength": 100 },
+        "name": { "type": "string", "maxLength": 100 },
+        "accountIdentifier": { "type": "string", "maxLength": 100 },
+        "accounts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "subaccount": { "type": "string" },
+              "subaccountId": { "type": "string" },
+              "tokenSymbol": { "type": "string" }
+            }
+          }
+        },
+        "deleted": { "type": "boolean" },
+        "updatedAt": { "type": "number" }
+      }
+    }
+  },
+  "allowances": {
+    "schema": {
+      "type": "object",
+      "version": 0,
+      "primaryKey": "id",
+      "properties": {
+        "id": { "type": "string", "maxLength": 100 },
+        "subAccountId": { "type": "string", "maxLength": 100 },
+        "spender": { "type": "string", "maxLength": 100 },
+        "asset": {
+          "type": "record",
+          "properties": {
+            "logo": { "type": "string", "maxLength": 100 },
+            "name": { "type": "string", "maxLength": 100 },
+            "symbol": { "type": "string", "maxLength": 100 },
+            "address": { "type": "string", "maxLength": 100 },
+            "decimal": { "type": "string", "maxLength": 100 },
+            "tokenName": { "type": "string", "maxLength": 100 },
+            "tokenSymbol": { "type": "string", "maxLength": 100 },
+            "supportedStandards": {
+              "type": "array",
+              "items": { "type": "string", "maxLength": 100 }
+            }
+          },
+          "required": ["logo", "name", "symbol", "address", "decimal", "tokenName", "tokenSymbol", "supportedStandards"]
+        },
+        "deleted": { "type": "boolean" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["subAccountId", "asset", "spender", "deleted", "updatedAt"]
+    }
+  },
+  "services": {
+    "schema": {
+      "type": "object",
+      "version": 0,
+      "primaryKey": "principal",
+      "properties": {
+        "principal": { "type": "string", "maxLength": 100 },
+        "name": { "type": "string", "maxLength": 100 },
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tokenSymbol": { "type": "string" },
+              "logo": { "type": "string" },
+              "tokenName": { "type": "string" },
+              "shortDecimal": { "type": "string" },
+              "principal": { "type": "string" },
+              "decimal": { "type": "string" }
+            }
+          }
+        },
+        "deleted": { "type": "boolean" },
+        "updatedAt": { "type": "number" }
+      }
+    }
+  },
+  "p2p_transactions": {
+    "schema": {
+      "version": 0,
+      "primaryKey": "id",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "offerId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "buyerId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "sellerId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string",
+          "maxLength": 10
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "completed", "disputed", "cancelled"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "disputeReason": {
+          "type": "string",
+          "maxLength": 500
+        }
+      },
+      "required": ["id", "offerId", "buyerId", "sellerId", "amount", "currency", "status", "createdAt"]
+    },
+    "migrationStrategies": {}
+  },
+  "p2p_offers": {
+    "schema": {
+      "version": 0,
+      "primaryKey": "id",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string",
+          "maxLength": 10
+        },
+        "price": {
+          "type": "number"
+        },
+        "paymentMethod": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "inactive", "completed"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "userId", "amount", "currency", "price", "paymentMethod", "status", "createdAt"]
+    },
+    "migrationStrategies": {}
+  },
+  "p2p_payment_verifications": {
+    "schema": {
+      "version": 0,
+      "primaryKey": "id",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "transactionId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "verified", "rejected"]
+        },
+        "proof": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "verifiedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "transactionId", "userId", "status", "proof", "createdAt"]
+    },
+    "migrationStrategies": {}
+  },
+  "kyc_details": {
+    "schema": {
+      "version": 0,
+      "primaryKey": "userId",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "approved", "rejected"]
+        },
+        "personalInfo": {
+          "type": "object",
+          "properties": {
+            "firstName": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "lastName": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "format": "date"
+            },
+            "nationality": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "phoneNumber": {
+              "type": "string",
+              "maxLength": 20
+            },
+            "email": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          "required": ["firstName", "lastName", "dateOfBirth", "nationality", "phoneNumber", "email"]
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "city": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "state": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "country": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "postalCode": {
+              "type": "string",
+              "maxLength": 20
+            }
+          },
+          "required": ["street", "city", "state", "country", "postalCode"]
+        },
+        "documents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["passport", "nationalId", "drivingLicense", "utilityBill"]
+              },
+              "number": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "expiryDate": {
+                "type": "string",
+                "format": "date"
+              },
+              "fileUrl": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "verificationStatus": {
+                "type": "string",
+                "enum": ["pending", "verified", "rejected"]
+              }
+            },
+            "required": ["type", "number", "expiryDate", "fileUrl", "verificationStatus"]
+          }
+        },
+        "verificationDetails": {
+          "type": "object",
+          "properties": {
+            "submittedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "verifiedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "verifiedBy": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "remarks": {
+              "type": "string",
+              "maxLength": 500
+            }
+          }
+        },
+        "riskLevel": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "updatedAt": {
+          "type": "number"
+        }
+      },
+      "required": ["userId", "status", "personalInfo", "address", "documents", "deleted", "updatedAt"]
+    },
+    "migrationStrategies": {}
+  }
+}
